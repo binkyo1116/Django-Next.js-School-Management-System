@@ -83,8 +83,8 @@
 - Git clone the repository and switch the current directory to the project directory
 
     ```bat
-    git clone https://github.com/AkshuAgarwal/SchoolManagementSystem
-    cd SchoolManagementSystem
+    git clone https://github.com/binkyo1116/Django-Next.js-School-Management-System.git
+    cd Django-Next.js-School-Management-System
     ```
 
 - Install the required Packages:
