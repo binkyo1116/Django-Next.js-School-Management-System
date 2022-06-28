@@ -2,29 +2,6 @@
 
 ### A Django + Next.js powered School Managament Web Application System equipped with various features!
 
-<br>
-
-> Status: **Paused Development**
-
-> The site isn't 100% ready to be used practically (neither it is recommended to do so) but still works just fine. It is an educational project and is not meant to be used in production (unless you know what you're doing). I have to pause (or maybe stop?) it's development due to examinations, and since it was an assignment, I'll have to submit it now anyways. There are some known (minor) bugs to be fixed later but most of the site is still operable.
-
-<br>
-<hr>
-
-
-## Table of Contents
-
-- [Features](#features)
-- [Preview](#preview)
-- [Requirements](#requirements)
-- [Setup Guide](#setup-guide)
-- [How to Setup Credentials](#how-to-setup-credentials)
-- [Generating Sample Data](#generating-sample-data)
-- [Using pip as the package manager](#using-pip-as-the-package-manager)
-
-<br>
-<hr>
-
 ## Features
 
 - Secure
