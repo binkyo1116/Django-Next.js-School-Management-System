@@ -1,0 +1,40 @@
+{
+  "name": "schoolmanagementsystem",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@babel/preset-react": "^7.16.7",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mdx-js/loader": "^2.1.0",
+    "@mui/icons-material": "^5.2.5",
+    "@mui/lab": "^5.0.0-alpha.64",
+    "@mui/material": "^5.2.8",
+    "@next/mdx": "^12.1.1",
+    "axios": "^0.24.0",
+    "babel-plugin-import": "^1.13.3",
+    "cookies": "^0.8.0",
+    "dotenv": "^11.0.0",
+    "moment": "^2.29.1",
+    "next": "^12.0.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-swipeable-views": "^0.14.0",
+    "react-swipeable-views-utils": "^0.14.0",
+    "react-virtualized": "^9.22.3",
+    "sass": "^1.48.0"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^12.0.10",
+    "eslint": "8.6.0",
+    "eslint-config-next": "12.0.8"
+  },
+  "browser": {
+    "cookies": false
+  }
+}

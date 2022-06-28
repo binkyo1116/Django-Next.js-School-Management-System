@@ -1,0 +1,130 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "next/core-web-vitals"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "array-bracket-newline": [
+            "error",
+            "consistent"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "always",
+            {
+                "objectsInArrays": false,
+                "arraysInArrays": false
+            }
+        ],
+        "arrow-parens": [
+            "error",
+            "as-needed",
+            {
+                "requireForBlockBody": false
+            }
+        ],
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "block-spacing": [
+            "error",
+            "always"
+        ],
+        "comma-style": [
+            "error",
+            "last"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "jsx-quotes": [
+            "error",
+            "prefer-double"
+        ],
+        "key-spacing": [
+            "error",
+            {
+                "singleLine": {
+                    "beforeColon": true,
+                    "afterColon": true,
+                    "mode": "minimum"
+                },
+                "multiLine": {
+                    "beforeColon": false,
+                    "afterColon": true,
+                    "mode": "minimum",
+                    "align": {
+                        "beforeColon": true,
+                        "afterColon": true,
+                        "on": "colon",
+                        "mode": "strict"
+                    }
+                }
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "no-empty": "off",
+        "no-trailing-spaces": [
+            "error"
+        ],
+        "no-unused-vars": [
+            "warn"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "operator-linebreak": [
+            "error",
+            "after"
+        ],
+        "quotes": [
+            "error",
+            "single",
+            {
+                "avoidEscape": true,
+                "allowTemplateLiterals": true
+            }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "wrap-regex": [
+            "error"
+        ]
+    }
+}

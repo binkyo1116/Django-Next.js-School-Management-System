@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "SchoolManagementSystem"
+version = "1.0.1"
+description = "A School Management Web Application System made with Django and Next.js"
+authors = ["Akshu <akshitagarwal2204@gmail.com>"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^4.0.1"
+djangorestframework = "^3.13.1"
+djangorestframework-orjson = "^0.1.3"
+djangorestframework-simplejwt = "^5.0.0"
+django-cors-headers = "^3.11.0"
+python-dotenv = "^0.19.2"
+redis = "^4.1.0"
+python-dateutil = "^2.8.2"
+psycopg2 = "^2.9.3"
+Pillow = "^9.0.0"
+orjson = "^3.6.5"
+PyYAML = "^6.0"
+mysqlclient = "^2.1.0"
+pandas = "^1.4.1"
+
+[tool.poetry.dev-dependencies]
+black = "^21.12b0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120

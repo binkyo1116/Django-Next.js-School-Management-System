@@ -1,0 +1,147 @@
+version: 1
+disable_existing_loggers: false
+filters:
+  require_debug_false:
+    (): django.utils.log.RequireDebugFalse
+  require_debug_true:
+    (): django.utils.log.RequireDebugTrue
+formatters:
+  general:
+    format: "[%(asctime)s] [%(levelname)-7s] [%(name)s - %(filename)s:%(lineno)s]: %(message)s (EXCEPTION: %(exc_info)s)"
+    datefmt: "%d/%b/%Y %H:%M:%S"
+  request:
+    format: "[%(asctime)s] [%(levelname)-7s] [%(name)s - %(filename)s:%(lineno)s]: %(message)s (STATUS: %(status_code)s; REQUEST: %(request)s; EXCEPTION: %(exc_info)s"
+    datefmt: "%d/%b/%Y %H:%M:%S"
+  db:
+    format: "[%(asctime)s] [%(levelname)-7s] [%(name)s - %(filename)s:%(lineno)s]: %(message)s (SQL: %(sql)s; PARAMS: %(params)s; EXCEPTION: %(exc_info)s)"
+    datefmt: "%d/%b/%Y %H:%M:%S"
+handlers:
+  null_handler:
+    class: logging.NullHandler
+  console:
+    class: logging.StreamHandler
+    filters: [require_debug_true]
+    formatter: general
+  mail_admins:
+    level: ERROR
+    class: django.utils.log.AdminEmailHandler
+    filters: [require_debug_false]
+    include_html: true
+  django:
+    level: ERROR
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/django.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+  security:
+    level: WARNING
+    class: logging.handlers.RotatingFileHandler
+    filters: [require_debug_false]
+    filename: "{LOGS_DIR}/security.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+  db:
+    level: ERROR
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/db.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: db
+  db_all:
+    level: DEBUG
+    class: logging.handlers.RotatingFileHandler
+    filters: [require_debug_true]
+    filename: "{LOGS_DIR}/db_all.log"
+    maxBytes: 268435456 # 256 MB
+    backupCount: 5
+    formatter: db
+  request:
+    level: ERROR
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/request.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: request
+  request_all:
+    level: INFO
+    class: logging.handlers.RotatingFileHandler
+    filters: [require_debug_true]
+    filename: "{LOGS_DIR}/request_all.log"
+    maxBytes: 268435456 # 256 MB
+    backupCount: 5
+    formatter: request
+  celery:
+    level: ERROR
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/celery.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+  delayed_tasks:
+    level: INFO
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/delayed_tasks.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+  apps:
+    level: WARNING
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/apps.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+  api:
+    level: ERROR
+    class: logging.handlers.RotatingFileHandler
+    filename: "{LOGS_DIR}/api.log"
+    maxBytes: 16777216 # 16 MB
+    backupCount: 5
+    formatter: general
+loggers:
+  django:
+    handlers: [django]
+    level: ERROR
+    propagate: false
+  django.request:
+    handlers: [request, mail_admins]
+    level: ERROR
+    propagate: false
+  django.server:
+    handlers: [request_all]
+    level: INFO
+  django.security:
+    handlers: [security, mail_admins]
+    level: WARNING
+    propagate: false
+  django.db.backends:
+    handlers: [db, mail_admins]
+    level: ERROR
+    propagate: false
+  django.db.backends:
+    handlers: [db_all]
+    level: DEBUG
+  celery:
+    handlers: [celery]
+    level: ERROR
+  celery.task:
+    handlers: [delayed_tasks]
+    level: INFO
+  apps:
+    handlers: [apps]
+    level: WARNING
+  common:
+    handlers: [apps]
+    level: WARNING
+  api:
+    handlers: [api]
+    level: ERROR
+  py.warnings:
+    handlers: [console]
+    level: WARNING
+    propagate: false
+  "":
+    handlers: [console]
+    level: DEBUG

@@ -1,0 +1,15 @@
+S. No.,Username,First Name,Last Name,Email ID,User Type,Date of Birth,Gender,Contact No.,Password,Parent's Username,Grade ID,Roll No.,Year of Enroll,Fee,Subject ID,Year of Joining,Salary,Classes IDs,Owns Class ID,Role
+1,admin_1,Admin (1),User,admin_1@localhost.com,Admin,1970-01-01,Male,+123456789011,AUser1@123,,,,,,,,,,,
+2,admin_2,Admin (2),User,admin_2@localhost.com,Admin,1970-01-02,Female,+123456789012,AUser2@123,,,,,,,,,,,
+3,parent_1,Parent (1),User,parent_1@localhost.com,Parent,1970-01-03,Male,+123456789021,PUser1@123,,,,,,,,,,,
+4,parent_2,Parent (2),User,parent_2@localhost.com,Parent,1970-01-04,Female,+123456789022,PUser2@123,,,,,,,,,,,
+5,parent_3,Parent (3),User,parent_3@locahost.com,Parent,1970-01-05,Male,+123456789023,PUser3@123,,,,,,,,,,,
+6,student_1,Student (1),User,student_1@localhost.com,Student,1970-01-06,Female,+123456789031,SUser1@123,parent_1,1,1,2020,10000,,,,,,
+7,student_2,Student (2),User,student_2@localhost.com,Student,1970-01-07,Male,+123456789032,SUser2@123,parent_1,10,2,2010,20000,,,,,,
+8,student_3,Student (3),User,student_3@localhost.com,Student,1970-01-08,Female,+123456789033,SUser3@123,parent_2,45,1,2015,25000,,,,,,
+9,teacher_1,Teacher (1),User,teacher_1@localhost.com,Teacher,1970-01-09,Male,+123456789041,TUser1@123,,,,,,1,2010,10000,1 2 3 4,4,
+10,teacher_2,Teacher (2),User,teacher_2@localhost.com,Teacher,1970-01-10,Female,+123456789042,TUser2@123,,,,,,5,2015,30000,21 22 23 24 31 32 40 41,22,
+11,teacher_3,Teacher (3),User,teacher_3@localhost.com,Teacher,1970-01-11,Male,+123456789043,TUser3@123,,,,,,6,2016,75000,44 45 46 47 48 10 12 14,45,
+12,management_1,Management (1),User,management_1@localhost.com,Management,1970-01-12,Female,+123456789051,MUser1@123,,,,,,,1990,1000000,,,Receptionist
+13,management_2,Management (2),User,management_2@localhost.com,Management,1970-01-13,Male,+123456789052,MUser2@123,,,,,,,2000,50000,,,Counsellor
+14,management_3,Management (3),User,management_3@localhost.com,Management,1970-01-14,Female,+123456789053,MUser3@123,,,,,,,1980,78000,,,Accountancy Manager

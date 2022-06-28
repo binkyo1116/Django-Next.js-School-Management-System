@@ -1,0 +1,52 @@
+{/*
+    To customize the About Page, find the `Start Mark` comment below and start writing the markdown and see the changes.
+    You can write markdown till the `End Mark` comment.
+    You can also customize the components and javascript of the page.
+*/}
+
+
+import Head from 'next/head';
+import getConfig from 'next/config';
+
+import { Box, Container, Typography } from '@mui/material';
+
+export const { publicRuntimeConfig } = getConfig();
+
+<Head>
+    <title>About Us | {publicRuntimeConfig.SCHOOL_NAME}</title>
+</Head>
+
+<Container sx={{ display : 'flex', flexDirection : 'column', justifyContent : 'center', alignItems : 'center', padding : '8vh 0' }}>
+<Box sx={{
+    display         : 'flex',
+    flexDirection   : 'column',
+    alignItems      : 'center',
+    justifyContent  : 'center',
+    flexWrap        : 'wrap',
+    width           : { xs : '100%', sm : '90%' },
+    borderRadius    : '7.5px',
+    padding         : '50px 30px',
+    backgroundColor : 'background.paper'
+}}>
+<Typography variant="h5">About Us</Typography>
+<Container sx={{ marginTop : '30px', maxWidth : { xs : '100%', sm : '95%', md : '90%', lg : '85%' } }}>
+
+
+
+{/* Start Mark */}
+
+
+
+## This is an About Page
+
+To customize this page, open about.mdx in pages directory and customize the content of the file, and see the changes.
+
+
+
+{/* End Mark */}
+
+
+
+</Container>
+</Box>
+</Container>
