@@ -249,16 +249,6 @@ const PasswordChangerForm = ({ props }) => {
     );
 };
 
-const SkeletonForm = () => {
-    return (
-        <Stack spacing={2}>
-            <Skeleton animation="wave" variant="rectangular" width="100%" height="40px" />
-            <Skeleton animation="wave" variant="rectangular" width="100%" height="40px" />
-            <Skeleton animation="wave" variant="rectangular" width="100%" height="200px" />
-        </Stack>
-    );
-};
-
 export default function ResetPassword() {
     const router = useRouter();
 
@@ -329,3 +319,23 @@ export default function ResetPassword() {
         </>
     );
 }
+
+const ErrorForm = ({ message }) => {
+    return (
+        <Alert severity="error" variant="filled" sx={{ width : '100%', marginBottom : '8px' }}>
+            {message}
+        </Alert>
+    );
+};
+
+const SkeletonForm = () => {
+    return (
+        <Stack spacing={2}>
+            <Skeleton animation="wave" variant="rectangular" width="100%" height="40px" />
+            <Skeleton animation="wave" variant="rectangular" width="100%" height="40px" />
+            <Skeleton animation="wave" variant="rectangular" width="100%" height="200px" />
+        </Stack>
+    );
+};
+
+
