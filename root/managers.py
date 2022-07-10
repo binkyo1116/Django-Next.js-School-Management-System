@@ -89,6 +89,46 @@ class StudentManager(models.Manager):
 
         return student
 
+class ParentManager(models.Manager):
+    REQUIRED_FIELDS = ["parent"]
+
+    def create(
+        self,
+        *,
+        parent: Union[int, UserModel],
+        nosave: Optional[bool] = False,
+        **extra_fields: Any,
+    ) -> ParentModel:
+        FIELDS = {
+            "parent": parent,
+        }
+
+        for key, value in FIELDS.copy().items():
+            if not value:
+                FIELDS.pop(key)
+
+        missing_fields = []
+        for required_field in self.REQUIRED_FIELDS:
+            if not FIELDS.get(required_field):
+                missing_fields.append(required_field)
+        if missing_fields:
+            raise MissingRequiredFields(missing_fields=missing_fields)
+
+        if FIELDS.get("parent") and isinstance(FIELDS["parent"], int):
+            FIELDS["parent_id"] = FIELDS.pop("parent")
+
+        if user := FIELDS.get("parent"):
+            _existing_users = self.filter(parent=user)
+        elif user_id := FIELDS.get("parent_id"):
+            _existing_users = self.filter(parent__id=user_id)
+        if _existing_users:
+            raise AlreadyExists(colliding_fields=["parent"])
+
+        parent: ParentModel = self.model(**FIELDS, **extra_fields)
+        if not nosave:
+            parent.save()
+
+        return parent
 
 class TeacherManager(models.Manager):
     REQUIRED_FIELDS = ["teacher", "subject", "year_of_joining", "salary"]
@@ -179,49 +219,6 @@ class TeacherManager(models.Manager):
                 teacher.classes.add(*classes)
 
         return teacher
-
-
-class ParentManager(models.Manager):
-    REQUIRED_FIELDS = ["parent"]
-
-    def create(
-        self,
-        *,
-        parent: Union[int, UserModel],
-        nosave: Optional[bool] = False,
-        **extra_fields: Any,
-    ) -> ParentModel:
-        FIELDS = {
-            "parent": parent,
-        }
-
-        for key, value in FIELDS.copy().items():
-            if not value:
-                FIELDS.pop(key)
-
-        missing_fields = []
-        for required_field in self.REQUIRED_FIELDS:
-            if not FIELDS.get(required_field):
-                missing_fields.append(required_field)
-        if missing_fields:
-            raise MissingRequiredFields(missing_fields=missing_fields)
-
-        if FIELDS.get("parent") and isinstance(FIELDS["parent"], int):
-            FIELDS["parent_id"] = FIELDS.pop("parent")
-
-        if user := FIELDS.get("parent"):
-            _existing_users = self.filter(parent=user)
-        elif user_id := FIELDS.get("parent_id"):
-            _existing_users = self.filter(parent__id=user_id)
-        if _existing_users:
-            raise AlreadyExists(colliding_fields=["parent"])
-
-        parent: ParentModel = self.model(**FIELDS, **extra_fields)
-        if not nosave:
-            parent.save()
-
-        return parent
-
 
 class ManagementManager(models.Manager):
     REQUIRED_FIELDS = ["management", "year_of_joining", "role", "salary"]
