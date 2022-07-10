@@ -20,19 +20,6 @@ if TYPE_CHECKING:
 
     from api.views.klass.models import Class as ClassModel
 
-
-class FileAssets(models.Model):
-    id = models.AutoField(verbose_name=_("ID"), auto_created=True, primary_key=True)
-    file = models.FileField(verbose_name=_("File"), upload_to=get_asset_directory_path)
-    uploaded_at = models.DateTimeField(verbose_name=_("Uploaded at"), auto_created=True, auto_now_add=True)
-
-
-class ImageAssets(models.Model):
-    id = models.AutoField(verbose_name=_("ID"), auto_created=True, primary_key=True)
-    image = models.ImageField(verbose_name=_("Image"), upload_to=get_asset_directory_path)
-    uploaded_at = models.DateTimeField(verbose_name=_("Uploaded at"), auto_created=True, auto_now_add=True)
-
-
 class User(_ABU, _PM):
     id = models.AutoField(verbose_name=_("ID"), auto_created=True, primary_key=True)
     username = models.CharField(
@@ -145,6 +132,15 @@ class User(_ABU, _PM):
     def get_short_name(self) -> str:
         return self.first_name
 
+class FileAssets(models.Model):
+    id = models.AutoField(verbose_name=_("ID"), auto_created=True, primary_key=True)
+    file = models.FileField(verbose_name=_("File"), upload_to=get_asset_directory_path)
+    uploaded_at = models.DateTimeField(verbose_name=_("Uploaded at"), auto_created=True, auto_now_add=True)
+
+class ImageAssets(models.Model):
+    id = models.AutoField(verbose_name=_("ID"), auto_created=True, primary_key=True)
+    image = models.ImageField(verbose_name=_("Image"), upload_to=get_asset_directory_path)
+    uploaded_at = models.DateTimeField(verbose_name=_("Uploaded at"), auto_created=True, auto_now_add=True)
 
 class Student(models.Model):
     student = models.OneToOneField(to="User", on_delete=models.CASCADE, primary_key=True, related_name="student")
