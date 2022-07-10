@@ -22,6 +22,15 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
 
 
+def get_user(self, user_id: int) -> Optional[UserModel]:
+    try:
+        user = UserModel.objects.get(id=user_id)
+    except UserModel.DoesNotExist:
+        return None
+
+    return user if self.user_can_authenticate(user) else None
+
+
 class AuthenticationBackend(ModelBackend):
     @overload
     def authenticate(self, request: HttpRequest = ..., username: str = ..., password: str = ...) -> Optional[UserModel]:
@@ -61,13 +70,6 @@ class AuthenticationBackend(ModelBackend):
             if user.check_password(password) and self.user_can_authenticate(user):
                 return user
 
-    def get_user(self, user_id: int) -> Optional[UserModel]:
-        try:
-            user = UserModel.objects.get(id=user_id)
-        except UserModel.DoesNotExist:
-            return None
-
-        return user if self.user_can_authenticate(user) else None
 
 
 class PasswordResetTokenBackend:
