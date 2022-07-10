@@ -89,187 +89,6 @@ class StudentManager(models.Manager):
 
         return student
 
-class ParentManager(models.Manager):
-    REQUIRED_FIELDS = ["parent"]
-
-    def create(
-        self,
-        *,
-        parent: Union[int, UserModel],
-        nosave: Optional[bool] = False,
-        **extra_fields: Any,
-    ) -> ParentModel:
-        FIELDS = {
-            "parent": parent,
-        }
-
-        for key, value in FIELDS.copy().items():
-            if not value:
-                FIELDS.pop(key)
-
-        missing_fields = []
-        for required_field in self.REQUIRED_FIELDS:
-            if not FIELDS.get(required_field):
-                missing_fields.append(required_field)
-        if missing_fields:
-            raise MissingRequiredFields(missing_fields=missing_fields)
-
-        if FIELDS.get("parent") and isinstance(FIELDS["parent"], int):
-            FIELDS["parent_id"] = FIELDS.pop("parent")
-
-        if user := FIELDS.get("parent"):
-            _existing_users = self.filter(parent=user)
-        elif user_id := FIELDS.get("parent_id"):
-            _existing_users = self.filter(parent__id=user_id)
-        if _existing_users:
-            raise AlreadyExists(colliding_fields=["parent"])
-
-        parent: ParentModel = self.model(**FIELDS, **extra_fields)
-        if not nosave:
-            parent.save()
-
-        return parent
-
-class TeacherManager(models.Manager):
-    REQUIRED_FIELDS = ["teacher", "subject", "year_of_joining", "salary"]
-
-    @overload
-    def create(
-        self,
-        *,
-        teacher: Union[int, UserModel],
-        subject: Union[int, SubjectModel] = ...,
-        year_of_joining: int,
-        salary: int,
-        classes: Optional[List[Union[int, ClassModel]]] = ...,
-        owns_class: Optional[Union[int, ClassModel]] = ...,
-        nosave: bool = False,
-        **extra_fields: Any,
-    ) -> TeacherModel:
-        ...
-
-    @overload
-    def create(
-        self,
-        *,
-        teacher: Union[int, UserModel],
-        subject: Union[int, SubjectModel] = ...,
-        year_of_joining: int,
-        salary: int,
-        owns_class: Optional[Union[int, ClassModel]] = ...,
-        nosave: bool = True,
-        **extra_fields: Any,
-    ) -> TeacherModel:
-        ...
-
-    def create(
-        self,
-        *,
-        teacher: Union[int, UserModel],
-        subject: Union[int, SubjectModel] = None,
-        year_of_joining: int,
-        salary: int,
-        classes: Optional[List[Union[int, ClassModel]]] = None,
-        owns_class: Optional[Union[int, ClassModel]] = None,
-        nosave: Optional[bool] = False,
-        **extra_fields: Any,
-    ) -> TeacherModel:
-        FIELDS = {
-            "teacher": teacher,
-            "subject": subject,
-            "year_of_joining": year_of_joining,
-            "salary": salary,
-            "owns_class": owns_class,
-        }
-
-        for key, value in FIELDS.copy().items():
-            if not value:
-                FIELDS.pop(key)
-
-        missing_fields = []
-        for required_field in self.REQUIRED_FIELDS:
-            if not FIELDS.get(required_field):
-                missing_fields.append(required_field)
-        if missing_fields:
-            raise MissingRequiredFields(missing_fields=missing_fields)
-
-        if FIELDS.get("teacher") and isinstance(FIELDS["teacher"], int):
-            FIELDS["teacher_id"] = FIELDS.pop("teacher")
-        if FIELDS.get("subject") and isinstance(FIELDS["subject"], int):
-            FIELDS["subject_id"] = FIELDS.pop("subject")
-        if FIELDS.get("owns_class") and isinstance(FIELDS["owns_class"], int):
-            FIELDS["owns_class_id"] = FIELDS.pop("owns_class")
-
-        if user := FIELDS.get("teacher"):
-            _existing_users = self.filter(teacher=user)
-        elif user_id := FIELDS.get("student_id"):
-            _existing_users = self.filter(teacher__id=user_id)
-        if _existing_users:
-            raise AlreadyExists(colliding_fields=["teacher"])
-
-        if FIELDS.get("year_of_joining") and not (1000 < FIELDS["year_of_joining"] <= datetime.datetime.now().year):
-            raise ValidationError("Invalid year_of_joining")
-
-        teacher: TeacherModel = self.model(**FIELDS, **extra_fields)
-        if not nosave:
-            teacher.save()
-
-            # classes can't be added to unsaved teacher, therefore this should be done manually if nosave=True.
-            if classes and isinstance(classes, list):
-                teacher.classes.add(*classes)
-
-        return teacher
-
-class ManagementManager(models.Manager):
-    REQUIRED_FIELDS = ["management", "year_of_joining", "role", "salary"]
-
-    def create(
-        self,
-        *,
-        management: Union[int, UserModel],
-        year_of_joining: int,
-        role: str,
-        salary: int,
-        nosave: Optional[bool] = False,
-        **extra_fields: Any,
-    ) -> TeacherModel:
-        FIELDS = {
-            "management": management,
-            "year_of_joining": year_of_joining,
-            "role": role,
-            "salary": salary,
-        }
-
-        for key, value in FIELDS.copy().items():
-            if not value:
-                FIELDS.pop(key)
-
-        missing_fields = []
-        for required_field in self.REQUIRED_FIELDS:
-            if not FIELDS.get(required_field):
-                missing_fields.append(required_field)
-        if missing_fields:
-            raise MissingRequiredFields(missing_fields=missing_fields)
-
-        if FIELDS.get("management") and isinstance(FIELDS["management"], int):
-            FIELDS["management_id"] = FIELDS.pop("management")
-
-        if user := FIELDS.get("management"):
-            _existing_users = self.filter(management=user)
-        elif user_id := FIELDS.get("management_id"):
-            _existing_users = self.filter(management__id=user_id)
-        if _existing_users:
-            raise AlreadyExists(colliding_fields=["management"])
-
-        if FIELDS.get("year_of_joining") and not (1000 < FIELDS["year_of_joining"] <= datetime.datetime.now().year):
-            raise ValidationError("Invalid year_of_joining")
-
-        management: ManagementModel = self.model(**FIELDS, **extra_fields)
-        if not nosave:
-            management.save()
-
-        return management
-
 
 class UserManager(_BUM):
     REQUIRED_FIELDS = [
@@ -696,3 +515,184 @@ class UserManager(_BUM):
         user.save()
 
         return user
+
+class ParentManager(models.Manager):
+    REQUIRED_FIELDS = ["parent"]
+
+    def create(
+        self,
+        *,
+        parent: Union[int, UserModel],
+        nosave: Optional[bool] = False,
+        **extra_fields: Any,
+    ) -> ParentModel:
+        FIELDS = {
+            "parent": parent,
+        }
+
+        for key, value in FIELDS.copy().items():
+            if not value:
+                FIELDS.pop(key)
+
+        missing_fields = []
+        for required_field in self.REQUIRED_FIELDS:
+            if not FIELDS.get(required_field):
+                missing_fields.append(required_field)
+        if missing_fields:
+            raise MissingRequiredFields(missing_fields=missing_fields)
+
+        if FIELDS.get("parent") and isinstance(FIELDS["parent"], int):
+            FIELDS["parent_id"] = FIELDS.pop("parent")
+
+        if user := FIELDS.get("parent"):
+            _existing_users = self.filter(parent=user)
+        elif user_id := FIELDS.get("parent_id"):
+            _existing_users = self.filter(parent__id=user_id)
+        if _existing_users:
+            raise AlreadyExists(colliding_fields=["parent"])
+
+        parent: ParentModel = self.model(**FIELDS, **extra_fields)
+        if not nosave:
+            parent.save()
+
+        return parent
+
+class TeacherManager(models.Manager):
+    REQUIRED_FIELDS = ["teacher", "subject", "year_of_joining", "salary"]
+
+    @overload
+    def create(
+        self,
+        *,
+        teacher: Union[int, UserModel],
+        subject: Union[int, SubjectModel] = ...,
+        year_of_joining: int,
+        salary: int,
+        classes: Optional[List[Union[int, ClassModel]]] = ...,
+        owns_class: Optional[Union[int, ClassModel]] = ...,
+        nosave: bool = False,
+        **extra_fields: Any,
+    ) -> TeacherModel:
+        ...
+
+    @overload
+    def create(
+        self,
+        *,
+        teacher: Union[int, UserModel],
+        subject: Union[int, SubjectModel] = ...,
+        year_of_joining: int,
+        salary: int,
+        owns_class: Optional[Union[int, ClassModel]] = ...,
+        nosave: bool = True,
+        **extra_fields: Any,
+    ) -> TeacherModel:
+        ...
+
+    def create(
+        self,
+        *,
+        teacher: Union[int, UserModel],
+        subject: Union[int, SubjectModel] = None,
+        year_of_joining: int,
+        salary: int,
+        classes: Optional[List[Union[int, ClassModel]]] = None,
+        owns_class: Optional[Union[int, ClassModel]] = None,
+        nosave: Optional[bool] = False,
+        **extra_fields: Any,
+    ) -> TeacherModel:
+        FIELDS = {
+            "teacher": teacher,
+            "subject": subject,
+            "year_of_joining": year_of_joining,
+            "salary": salary,
+            "owns_class": owns_class,
+        }
+
+        for key, value in FIELDS.copy().items():
+            if not value:
+                FIELDS.pop(key)
+
+        missing_fields = []
+        for required_field in self.REQUIRED_FIELDS:
+            if not FIELDS.get(required_field):
+                missing_fields.append(required_field)
+        if missing_fields:
+            raise MissingRequiredFields(missing_fields=missing_fields)
+
+        if FIELDS.get("teacher") and isinstance(FIELDS["teacher"], int):
+            FIELDS["teacher_id"] = FIELDS.pop("teacher")
+        if FIELDS.get("subject") and isinstance(FIELDS["subject"], int):
+            FIELDS["subject_id"] = FIELDS.pop("subject")
+        if FIELDS.get("owns_class") and isinstance(FIELDS["owns_class"], int):
+            FIELDS["owns_class_id"] = FIELDS.pop("owns_class")
+
+        if user := FIELDS.get("teacher"):
+            _existing_users = self.filter(teacher=user)
+        elif user_id := FIELDS.get("student_id"):
+            _existing_users = self.filter(teacher__id=user_id)
+        if _existing_users:
+            raise AlreadyExists(colliding_fields=["teacher"])
+
+        if FIELDS.get("year_of_joining") and not (1000 < FIELDS["year_of_joining"] <= datetime.datetime.now().year):
+            raise ValidationError("Invalid year_of_joining")
+
+        teacher: TeacherModel = self.model(**FIELDS, **extra_fields)
+        if not nosave:
+            teacher.save()
+
+            # classes can't be added to unsaved teacher, therefore this should be done manually if nosave=True.
+            if classes and isinstance(classes, list):
+                teacher.classes.add(*classes)
+
+        return teacher
+
+class ManagementManager(models.Manager):
+    REQUIRED_FIELDS = ["management", "year_of_joining", "role", "salary"]
+
+    def create(
+        self,
+        *,
+        management: Union[int, UserModel],
+        year_of_joining: int,
+        role: str,
+        salary: int,
+        nosave: Optional[bool] = False,
+        **extra_fields: Any,
+    ) -> TeacherModel:
+        FIELDS = {
+            "management": management,
+            "year_of_joining": year_of_joining,
+            "role": role,
+            "salary": salary,
+        }
+
+        for key, value in FIELDS.copy().items():
+            if not value:
+                FIELDS.pop(key)
+
+        missing_fields = []
+        for required_field in self.REQUIRED_FIELDS:
+            if not FIELDS.get(required_field):
+                missing_fields.append(required_field)
+        if missing_fields:
+            raise MissingRequiredFields(missing_fields=missing_fields)
+
+        if FIELDS.get("management") and isinstance(FIELDS["management"], int):
+            FIELDS["management_id"] = FIELDS.pop("management")
+
+        if user := FIELDS.get("management"):
+            _existing_users = self.filter(management=user)
+        elif user_id := FIELDS.get("management_id"):
+            _existing_users = self.filter(management__id=user_id)
+        if _existing_users:
+            raise AlreadyExists(colliding_fields=["management"])
+
+        if FIELDS.get("year_of_joining") and not (1000 < FIELDS["year_of_joining"] <= datetime.datetime.now().year):
+            raise ValidationError("Invalid year_of_joining")
+
+        management: ManagementModel = self.model(**FIELDS, **extra_fields)
+        if not nosave:
+            management.save()
+
+        return management
