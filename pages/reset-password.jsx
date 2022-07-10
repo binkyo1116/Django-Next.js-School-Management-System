@@ -101,6 +101,15 @@ const EmailRequesterForm = () => {
     );
 };
 
+const ErrorForm = ({ message }) => {
+    return (
+        <Alert severity="error" variant="filled" sx={{ width : '100%', marginBottom : '8px' }}>
+            {message}
+        </Alert>
+    );
+};
+
+
 const PasswordChangerForm = ({ props }) => {
     const router = useRouter();
 
@@ -237,14 +246,6 @@ const PasswordChangerForm = ({ props }) => {
                 <LoadingButton type="submit" color="secondary" variant="contained" loading={loading} sx={{ marginTop : '16px' }} disabled={passwordError || confirmPasswordError}>Submit</LoadingButton>
             </form>
         </>
-    );
-};
-
-const ErrorForm = ({ message }) => {
-    return (
-        <Alert severity="error" variant="filled" sx={{ width : '100%', marginBottom : '8px' }}>
-            {message}
-        </Alert>
     );
 };
 
