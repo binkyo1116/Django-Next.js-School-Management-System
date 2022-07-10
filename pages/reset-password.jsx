@@ -101,6 +101,15 @@ const EmailRequesterForm = () => {
     );
 };
 
+const ErrorForm = ({ message }) => {
+    return (
+        <Alert severity="error" variant="filled" sx={{ width : '100%', marginBottom : '8px' }}>
+            {message}
+        </Alert>
+    );
+};
+
+
 const PasswordChangerForm = ({ props }) => {
     const router = useRouter();
 
