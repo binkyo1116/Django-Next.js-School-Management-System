@@ -126,6 +126,32 @@ class ParentSerializer(serializers.ModelSerializer):
             "parent",
         ]
 
+class ManagementSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs) -> None:
+        fields = kwargs.pop("fields", None)
+
+        super().__init__(*args, **kwargs)
+
+        if fields is not None:
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+        for field in {"management"}:
+            self.fields[field].context.update(self.context)
+
+    management = UserSerializer()
+
+    class Meta:
+        model = ManagementModel
+        fields = [
+            "management",
+            "role",
+            "year_of_joining",
+            "salary",
+        ]
+
 
 class StudentSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs) -> None:
@@ -190,28 +216,4 @@ class TeacherSerializer(serializers.ModelSerializer):
         ]
 
 
-class ManagementSerializer(serializers.ModelSerializer):
-    def __init__(self, *args, **kwargs) -> None:
-        fields = kwargs.pop("fields", None)
 
-        super().__init__(*args, **kwargs)
-
-        if fields is not None:
-            allowed = set(fields)
-            existing = set(self.fields)
-            for field_name in existing - allowed:
-                self.fields.pop(field_name)
-
-        for field in {"management"}:
-            self.fields[field].context.update(self.context)
-
-    management = UserSerializer()
-
-    class Meta:
-        model = ManagementModel
-        fields = [
-            "management",
-            "role",
-            "year_of_joining",
-            "salary",
-        ]
