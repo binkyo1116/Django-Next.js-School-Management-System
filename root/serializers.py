@@ -19,29 +19,6 @@ if TYPE_CHECKING:
     from rest_framework.request import Request
 
 
-class FileAssetsSerializer(serializers.ModelSerializer):
-    file = serializers.SerializerMethodField()
-
-    def __init__(self, *args, **kwargs) -> None:
-        fields = kwargs.pop("fields", None)
-
-        super().__init__(*args, **kwargs)
-
-        if fields is not None:
-            allowed = set(fields)
-            existing = set(self.fields)
-            for field_name in existing - allowed:
-                self.fields.pop(field_name)
-
-    def get_file(self, obj: FileAssetsModel) -> str:
-        request: Request = self.context["request"]
-        return request.build_absolute_uri(obj.file.url)
-
-    class Meta:
-        model = FileAssetsModel
-        fields = ["id", "file", "uploaded_at"]
-
-
 class ImageAssetsSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
 
@@ -64,6 +41,27 @@ class ImageAssetsSerializer(serializers.ModelSerializer):
         model = ImageAssetsModel
         fields = ["id", "image", "uploaded_at"]
 
+class FileAssetsSerializer(serializers.ModelSerializer):
+    file = serializers.SerializerMethodField()
+
+    def __init__(self, *args, **kwargs) -> None:
+        fields = kwargs.pop("fields", None)
+
+        super().__init__(*args, **kwargs)
+
+        if fields is not None:
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+    def get_file(self, obj: FileAssetsModel) -> str:
+        request: Request = self.context["request"]
+        return request.build_absolute_uri(obj.file.url)
+
+    class Meta:
+        model = FileAssetsModel
+        fields = ["id", "file", "uploaded_at"]
 
 class UserSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField(allow_null=True)
