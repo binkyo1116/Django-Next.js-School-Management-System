@@ -21,12 +21,7 @@ class Contact(models.Model):
             return True
         return self.id != __o.id
 
-    def __repr__(self) -> str:
-        return f"<ContactMessage id={self.id} name={self.first_name + (' ' + self.last_name) if self.last_name else ''} email_id={self.email_id}>"
-
-    def __str__(self) -> str:
-        return self.message
-
+    
     def __int__(self) -> int:
         return int(self.id)
 
@@ -35,3 +30,9 @@ class Contact(models.Model):
 
     def get_short_name(self) -> str:
         return self.first_name
+
+    def __repr__(self) -> str:
+        return f"<ContactMessage id={self.id} name={self.first_name + (' ' + self.last_name) if self.last_name else ''} email_id={self.email_id}>"
+
+    def __str__(self) -> str:
+        return self.message
