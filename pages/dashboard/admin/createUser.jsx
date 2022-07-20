@@ -202,6 +202,15 @@ const AccountInfoStep = ({ handleStepperNext }) => {
         } else uniqueEmailError[1](false);
     };
 
+    const checkPasswordsEquality = () => {
+        if (!reEnterPassword.current.value) {
+            reEnterPasswordError[1](false);
+        } else {
+            if (!password.current.value) reEnterPasswordError[1](true);
+            else password.current.value === reEnterPassword.current.value ? reEnterPasswordError[1](false) : reEnterPasswordError[1](true);
+        }
+    };
+
     const checkEmailStringValidation = () => {
         if (email.current.value !== '') {
             String(email.current.value).toLowerCase()
@@ -223,14 +232,7 @@ const AccountInfoStep = ({ handleStepperNext }) => {
         }
     };
 
-    const checkPasswordsEquality = () => {
-        if (!reEnterPassword.current.value) {
-            reEnterPasswordError[1](false);
-        } else {
-            if (!password.current.value) reEnterPasswordError[1](true);
-            else password.current.value === reEnterPassword.current.value ? reEnterPasswordError[1](false) : reEnterPasswordError[1](true);
-        }
-    };
+    
 
     const handleSubmit = e => {
         e.preventDefault();
