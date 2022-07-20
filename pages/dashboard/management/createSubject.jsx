@@ -14,24 +14,7 @@ export default function CreateSubject() {
     const nameRef = useRef(null);
     const codeRef = useRef(null);
 
-    const checkExistingSubject = () => {
-        if (nameRef.current?.value && codeRef.current?.value) {
-            axios.get(
-                'api/subject/',
-                { params : { name : nameRef.current.value, code : Number(codeRef.current.value) } }
-            ).then(response => {
-                if (response.status === 200) {
-                    setExistingSubjectError(true);
-                }
-            }).catch(e => {
-                if (e.response.status === 400 || e.response.status === 404) {
-                    setExistingSubjectError(false);
-                }
-            });
-        } else {
-            setExistingSubjectError(false);
-        }
-    };
+    
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -52,6 +35,25 @@ export default function CreateSubject() {
             }
             setLoading(false);
         });
+    };
+
+    const checkExistingSubject = () => {
+        if (nameRef.current?.value && codeRef.current?.value) {
+            axios.get(
+                'api/subject/',
+                { params : { name : nameRef.current.value, code : Number(codeRef.current.value) } }
+            ).then(response => {
+                if (response.status === 200) {
+                    setExistingSubjectError(true);
+                }
+            }).catch(e => {
+                if (e.response.status === 400 || e.response.status === 404) {
+                    setExistingSubjectError(false);
+                }
+            });
+        } else {
+            setExistingSubjectError(false);
+        }
     };
 
     return (
