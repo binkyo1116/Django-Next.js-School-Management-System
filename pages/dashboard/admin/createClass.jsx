@@ -14,25 +14,6 @@ export default function CreateClass() {
     const gradeRef = useRef(null);
     const sectionRef = useRef(null);
 
-    const checkExistingClass = () => {
-        if (gradeRef.current?.value) {
-            axios.get(
-                'api/class/',
-                { params : { grade : gradeRef.current.value, section : sectionRef.current.value } }
-            ).then(response => {
-                if (response.status === 200) {
-                    setExistingClassError(true);
-                }
-            }).catch(e => {
-                if (e.response.status === 400 || e.response.status === 404) {
-                    setExistingClassError(false);
-                }
-            });
-        } else {
-            setExistingClassError(false);
-        }
-    };
-
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
@@ -53,6 +34,27 @@ export default function CreateClass() {
             setLoading(false);
         });
     };
+
+    const checkExistingClass = () => {
+        if (gradeRef.current?.value) {
+            axios.get(
+                'api/class/',
+                { params : { grade : gradeRef.current.value, section : sectionRef.current.value } }
+            ).then(response => {
+                if (response.status === 200) {
+                    setExistingClassError(true);
+                }
+            }).catch(e => {
+                if (e.response.status === 400 || e.response.status === 404) {
+                    setExistingClassError(false);
+                }
+            });
+        } else {
+            setExistingClassError(false);
+        }
+    };
+
+    
 
     return (
         <Container sx={{ display : 'flex', flexDirection : 'column', justifyContent : 'center', alignItems : 'center', padding : '8vh 0' }}>
