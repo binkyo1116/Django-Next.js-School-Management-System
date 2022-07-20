@@ -35,10 +35,6 @@ export default function CreateAssignment() {
     const messageRef = useRef();
     const file = useState(null);
 
-    useEffect(() => {
-        !classes[0] ? axios.get('api/class/all/').then(response => classes[1](response.data.data)) : undefined;
-    }, []); // eslint-disable-line
-
     const getURIFromFile = file => new Promise((resolve, reject) => {
         reader.readAsDataURL(file);
         reader.onload = () => resolve(reader.result);
@@ -66,6 +62,12 @@ export default function CreateAssignment() {
         });
 
     };
+
+    useEffect(() => {
+        !classes[0] ? axios.get('api/class/all/').then(response => classes[1](response.data.data)) : undefined;
+    }, []); // eslint-disable-line
+
+    
 
     return (
         <Container sx={{ display : 'flex', flexDirection : 'column', justifyContent : 'center', alignItems : 'center', padding : '8vh 0' }}>
