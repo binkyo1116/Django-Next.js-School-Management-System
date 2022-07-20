@@ -128,27 +128,7 @@ const PasswordChangerForm = ({ props }) => {
 
     const [ loading, setLoading ] = useState(false);
 
-    const checkPasswordValidation = () => {
-        if (passwordRef.current.value === '') {
-            setPasswordErrorMessages([]);
-            setPasswordError(false);
-        } else {
-            axios.post(
-                'auth/password/validate/', { username : props.username, password : passwordRef.current.value }
-            ).then(response => {
-                if (response.status === 200) {
-                    setPasswordErrorMessages([]);
-                    setPasswordError(false);
-                }
-            }).catch(e => {
-                if (e.response.status === 400) {
-                    setPasswordErrorMessages(e.response.data.error.errors);
-                    setPasswordError(true);
-                }
-            });
-        }
-    };
-
+    
     const checkPasswordsEquality = () => {
         if (confirmPasswordRef.current.value === '') {
             setConfirmPasswordError(false);
@@ -193,6 +173,28 @@ const PasswordChangerForm = ({ props }) => {
             }
         });
     };
+
+    const checkPasswordValidation = () => {
+        if (passwordRef.current.value === '') {
+            setPasswordErrorMessages([]);
+            setPasswordError(false);
+        } else {
+            axios.post(
+                'auth/password/validate/', { username : props.username, password : passwordRef.current.value }
+            ).then(response => {
+                if (response.status === 200) {
+                    setPasswordErrorMessages([]);
+                    setPasswordError(false);
+                }
+            }).catch(e => {
+                if (e.response.status === 400) {
+                    setPasswordErrorMessages(e.response.data.error.errors);
+                    setPasswordError(true);
+                }
+            });
+        }
+    };
+
 
     return (
         <>
