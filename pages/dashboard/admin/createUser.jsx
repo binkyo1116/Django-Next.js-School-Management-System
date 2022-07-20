@@ -218,7 +218,6 @@ const AccountInfoStep = ({ handleStepperNext }) => {
                 invalidEmailError[1](false) : invalidEmailError[1](true);
         } else invalidEmailError[1](false);
     };
-
     const checkPasswordValidation = () => {
         if (password.current.value === '') { passwordErrorMessages[1]([]); passwordError[1](false); }
         else {
@@ -230,6 +229,24 @@ const AccountInfoStep = ({ handleStepperNext }) => {
                 .then(response => { if (response.status === 200) { passwordErrorMessages[1]([]); passwordError[1](false); } })
                 .catch(e => { if (e.response.status === 400) { passwordErrorMessages[1](e.response.data.error.errors); passwordError[1](true); } });
         }
+    };
+
+    
+
+    const checkUniqueEmailValidation = () => {
+        if (email.current.value !== '') {
+            axios.get('api/user/', { params : { email_id : String(email.current.value).toLowerCase() } })
+                .then(response => { response.status === 200 ? uniqueEmailError[1](true) : undefined; })
+                .catch(e => { e.response.status === 404 ? uniqueEmailError[1](false) : undefined; });
+        } else uniqueEmailError[1](false);
+    };
+
+    const checkEmailStringValidation = () => {
+        if (email.current.value !== '') {
+            String(email.current.value).toLowerCase()
+                .match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ?
+                invalidEmailError[1](false) : invalidEmailError[1](true);
+        } else invalidEmailError[1](false);
     };
 
     
