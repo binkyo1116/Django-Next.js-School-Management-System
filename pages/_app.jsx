@@ -21,15 +21,6 @@ function MyApp({ Component, pageProps }) {
     const [ mode, setMode ] = useState(typeof pageProps.__darkModeEnabled === 'undefined' ? null : (pageProps.__darkModeEnabled ? 'dark' : 'light'));
 
     useEffect(() => {
-        router.events.on('routeChangeStart', () => setLoading(true));
-        router.events.on('routeChangeComplete', () => setLoading(false));
-        router.events.on('routeChangeError', () => setLoading(false));
-    }, []); // eslint-disable-line
-
-    const colorMode = useMemo(() => ({ toggleColorMode : () => { setMode(prevMode => (prevMode === 'light' ? 'dark' : 'light')); } }), []);
-    const _theme = useMemo(() => { return mode === 'dark' ? darkTheme : lightTheme; }, [ mode ]);
-
-    useEffect(() => {
         if (typeof pageProps.__darkModeEnabled === 'undefined') {
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 pageProps.__darkModeEnabled = true;
@@ -41,6 +32,17 @@ function MyApp({ Component, pageProps }) {
             router.reload();
         }
     }, []); // eslint-disable-line
+
+    useEffect(() => {
+        router.events.on('routeChangeStart', () => setLoading(true));
+        router.events.on('routeChangeComplete', () => setLoading(false));
+        router.events.on('routeChangeError', () => setLoading(false));
+    }, []); // eslint-disable-line
+
+    const colorMode = useMemo(() => ({ toggleColorMode : () => { setMode(prevMode => (prevMode === 'light' ? 'dark' : 'light')); } }), []);
+    const _theme = useMemo(() => { return mode === 'dark' ? darkTheme : lightTheme; }, [ mode ]);
+
+    
 
     useEffect(() => {
         if (mode) {
