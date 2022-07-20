@@ -41,19 +41,7 @@ export default function Teacher() {
         defaultItem: { id : 'dashboard', text : 'Dashboard', icon : <DashboardIcon /> },
     };
 
-    useEffect(() => {
-        if (authContext.documentLoaded) {
-            if (rendering) {
-                if (!authContext.loggedIn) {
-                    router.replace('/login');
-                } else if (authContext.userData.user_type !== 't') {
-                    router.replace('/dashboard');
-                } else {
-                    setRendering(false);
-                }
-            }
-        }
-    }, [ authContext.documentLoaded ]); // eslint-disable-line
+    
 
     useEffect(() => {
         if (!router.query.page) { // No page query exists
@@ -84,6 +72,20 @@ export default function Teacher() {
             }
         }
     }, [ router.query.page ]); // eslint-disable-line
+
+    useEffect(() => {
+        if (authContext.documentLoaded) {
+            if (rendering) {
+                if (!authContext.loggedIn) {
+                    router.replace('/login');
+                } else if (authContext.userData.user_type !== 't') {
+                    router.replace('/dashboard');
+                } else {
+                    setRendering(false);
+                }
+            }
+        }
+    }, [ authContext.documentLoaded ]); // eslint-disable-line
 
     return (
         <>
